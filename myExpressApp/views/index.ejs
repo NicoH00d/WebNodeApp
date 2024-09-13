@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="/stylesheets/style.css">
+  <title>Weather Comparison App</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      text-align: center;
+      margin: 50px;
+    }
+    .input-wrapper {
+      margin: 20px;
+    }
+    .card {
+      display: inline-block;
+      width: 200px;
+      padding: 10px;
+      margin: 10px;
+      border: 1px solid #ddd;
+      border-radius: 5px;
+    }
+    .cardtemp {
+      font-size: 24px;
+    }
+    .error {
+      color: red;
+    }
+  </style>
+</head>
+<body>
+  <h1>Weather Comparison App</h1>
+  <form action="/weather" method="POST">
+    <div class="input-wrapper">
+      <input type="text" name="city" placeholder="Ingresa una ciudad" required />
+      <button type="submit">Buscar</button>
+    </div>
+  </form>
+
+  <% if (weatherData) { %>
+    <h2>Resultados para <%= weatherData.openWeather.name %></h2>
+    
+    <div class="card">
+      <h3>OpenWeather</h3>
+      <p>Temperatura: <%= weatherData.openWeather.main.temp %>°C</p>
+      <p>Descripción: <%= weatherData.openWeather.weather[0].description %></p>
+      <p>Humedad: <%= weatherData.openWeather.main.humidity %>%</p>
+    </div>
+  
+    <div class="card">
+      <h3>WeatherAPI</h3>
+      <p>Temperatura: <%= weatherData.weatherAPI.current.temp_c %>°C</p>
+      <p>Descripción: <%= weatherData.weatherAPI.current.condition.text %></p>
+      <p>Humedad: <%= weatherData.weatherAPI.current.humidity %>%</p>
+    </div>
+  <% } else { %>
+    <p>No se han encontrado datos del clima.</p>
+  <% } %>
+
+  <% if (error) { %>
+    <div class="error"><%= error %></div>
+  <% } %>
+</body>
+</html>
